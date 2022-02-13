@@ -1,6 +1,6 @@
 import os
 import numpy as np
-from AudioUtil import AudioUtil
+from AudioUtils import AudioUtils
 
 class SoundDS:
     def __init__(self, df, data_path):
@@ -21,10 +21,16 @@ class SoundDS:
      
         class_id = self.df.loc[idx, 'classID']
         
-        aud = AudioUtil.open(audio_file)
-        aud = AudioUtil.pad_trunc((AudioUtil.stretch(aud[0], 0.84), aud[1]), 3000)
-        #spec = AudioUtil.spectrogram(aud, hop_length=self.hop_length, n_fft=self.n_fft)
-        #log_spec = AudioUtil.spectrogram(aud, hop_length=self.hop_length, n_fft=self.n_fft, log = True)
-        mfcc = AudioUtil.mfcc(aud)
+        aud = AudioUtils.open(audio_file)
+        #Augmentations here
+        #aud = (AudioUtils.stretch(aud[0], 0.84), aud[1])
+
+        #Samples should be 3s
+        aud = AudioUtils.pad_trunc(aud, self.durations)
+
+        #spec = AudioUtils.spectrogram(aud, hop_length=self.hop_length, n_fft=self.n_fft)
+        #log_spec = AudioUtils.spectrogram(aud, hop_length=self.hop_length, n_fft=self.n_fft, log = True)
+
+        mfcc = AudioUtils.mfcc(aud)
         mfcc = mfcc.T
         return mfcc, class_id

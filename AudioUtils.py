@@ -4,7 +4,7 @@ import pandas as pd
 import librosa, librosa.display
 import matplotlib.pyplot as plt
 
-class AudioUtil():
+class AudioUtils():
     @staticmethod
     def open(audio_file, sr = 44100):
         sig, sr = librosa.load(audio_file, sr = sr)
